@@ -1,0 +1,26 @@
+{
+  "name": "revision-check",
+  "version": "1.0.0",
+  "description": "Free QR code document manager",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Hodges",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "express-validator": "^6.2.0",
+    "helmet": "^3.21.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.0",
+    "nodemon": "^1.19.2",
+    "rate-limiter-flexible": "^1.1.1"
+  }
+}
