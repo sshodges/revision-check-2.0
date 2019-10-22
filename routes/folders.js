@@ -23,11 +23,7 @@ router.get('/:id', [folderValidator.get, auth], folderController.get);
 // @route   GET api/folders/search/:searchTerm
 // @desc    Search Folder Names for {searchTerm}
 // @access  Private
-router.get(
-  '/search/:searchTerm',
-  [folderValidator.search, auth],
-  folderController.search
-);
+router.post('/search', [folderValidator.search, auth], folderController.search);
 
 // @route   GET api/folders/children/:id
 // @desc    Get All Children Folders
@@ -46,7 +42,7 @@ router.post('/', [folderValidator.add, auth], folderController.add);
 // @route   PUT api/folders/
 // @desc    Edit Folder
 // @access  Private
-router.post('/', [folderValidator.update, auth], folderController.update);
+router.put('/:id', [folderValidator.update, auth], folderController.update);
 
 // @route   DELETE api/folders/:id
 // @desc    Delete Folder

@@ -8,9 +8,14 @@ const FolderSchema = mongoose.Schema({
   parent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'folders',
-    default: 0,
-    required: true
+    default: null
   },
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now

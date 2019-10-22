@@ -18,7 +18,7 @@ exports.createToken = function(user) {
       process.env.cryptoKey
     ).toString();
 
-    //Creat JWT Token
+    // Create JWT Token
     jwt.sign(
       { token: encryptedData },
       process.env.jwtSecret,
