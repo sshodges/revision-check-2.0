@@ -5,20 +5,18 @@ const RevisionSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  parent: {
+  document: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'documents',
     required: true
   },
   latest: {
     type: Boolean,
-    default: false,
-    required: true
+    default: true
   },
   revcode: {
     type: String,
-    unique: true,
-    required: true
+    unique: true
   },
   scans: {
     type: Number,
@@ -27,6 +25,12 @@ const RevisionSchema = mongoose.Schema({
   notes: {
     type: String
   },
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now

@@ -28,15 +28,15 @@ router.put('/:id', [revisionValidator.update, auth], revisionController.update);
 // @route   POST api/:documentId
 // @desc    Add New Revision
 // @access  Private
-router.post(
-  '/:documentId',
-  [revisionValidator.add, auth],
-  revisionController.add
-);
+router.post('/', [revisionValidator.add, auth], revisionController.add);
 
 // @route   GET api/:revcode
 // @desc    Search Revisions by {revcode}
 // @access  Public
-router.get('/:revcode', revisionValidator.search, revisionController.revcode);
+router.get(
+  '/revcode/:revcode',
+  revisionValidator.search,
+  revisionController.revcode
+);
 
 module.exports = router;
