@@ -8,13 +8,17 @@ const DocumentSchema = mongoose.Schema({
   parent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'folders',
-    default: 0,
-    required: true
+    default: null
   },
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  ],
   status: {
     type: Boolean,
-    default: true,
-    required: true
+    default: true
   },
   createdAt: {
     type: Date,

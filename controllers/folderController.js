@@ -58,15 +58,11 @@ exports.add = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { name, parent } = req.body;
     const filter = {
       user: req.user.id,
       _id: req.params.id
     };
-    const update = {
-      name,
-      parent
-    };
+    const update = req.body;
 
     const folder = await Folder.updateOne(filter, update);
 

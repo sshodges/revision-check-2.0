@@ -23,8 +23,8 @@ router.get('/:id', [documentValidator.get, auth], documentController.get);
 // @route   GET api/documents/search/:searchTerm
 // @desc    Search Document Names for :searchTerm
 // @access  Private
-router.get(
-  '/search/:searchTerm',
+router.post(
+  '/search',
   [documentValidator.search, auth],
   documentController.search
 );
