@@ -1,13 +1,30 @@
-import React from 'react';
-import 'materialize-css/dist/css/materialize.min.css';
-import M from 'materialize-css/dist/js/materialize.min.js';
+import React, { useEffect, Fragment } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import store from './store';
+import { Provider } from 'react-redux';
+
+//Components
+import Navbar from './components/layout/Navbar';
+import Dashboard from './components/pages/Dashboard';
+import Sidebar from './components/layout/Sidebar';
 
 const App = () => {
+  useEffect(() => {});
   return (
-    <div className='App'>
-      <h1>Welcome to Office Pool</h1>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Fragment>
+          <Sidebar />
+          <div className='container'>
+            <Switch>
+              <Route exact path='/' component={Dashboard} />
+            </Switch>
+          </div>
+        </Fragment>
+      </Router>
+    </Provider>
   );
 };
 
