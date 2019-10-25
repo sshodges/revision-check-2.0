@@ -16,6 +16,10 @@ const FolderSchema = mongoose.Schema({
       ref: 'user'
     }
   ],
+  type: {
+    type: String,
+    default: 'folder'
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -8,12 +8,12 @@ export const getAllDocuments = () => async dispatch => {
     let config = {
       headers: {
         'auth-token':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6IlUyRnNkR1ZrWDErNkdNTTVLLzlOSERrZkZySy9DV3dBQ3BoZ3JmemZaTnBMWDVDckpaeHh6Ymh1Z3l1dFY0YTYrTzhOYm9qVlA2alFtNDU2cTQrbVhRPT0iLCJpYXQiOjE1NzE3MjA4MzksImV4cCI6MTU3MTgwNzIzOX0.wJCt0xauc-J6VWuminj8kaAadmH8Uz_G_76kEvWfOCg'
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6IlUyRnNkR1ZrWDEvSTF4WGZRclNNRnRiaUxIYnRFOHhPa1luQ0VTcEZsNW1kcWlDbk5PV1VLSjZsUjJwWll2WHRDMXltcHNmL0o5Zkx3MGlXOWJoVzRnPT0iLCJpYXQiOjE1NzE4OTcxNjgsImV4cCI6MTU3MTk4MzU2OH0.41NR5YttHe04AtZxRo3F8_DfFHo9VGIRYsJ0YXw-x44'
       }
     };
 
     const res = await axios.get(
-      'http://localhost:5000/api/documents/getAll',
+      'http://localhost:5000/api/documents/getall/items',
       config
     );
 

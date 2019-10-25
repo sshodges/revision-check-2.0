@@ -4,8 +4,19 @@ const bodyParser = require('body-parser');
 const connectDB = require('./db');
 const helmet = require('helmet');
 const session = require('express-session');
+const cors = require('cors');
+
+//Cors Settings
+var corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST, DELETE, OPTIONS',
+  preflightContinue: true,
+  optionsSuccessStatus: 204,
+  exposedHeaders: 'Auth'
+};
 
 const app = express();
+app.use(cors(corsOptions));
 
 app.use(
   session({

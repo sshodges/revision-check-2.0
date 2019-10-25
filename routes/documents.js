@@ -20,6 +20,15 @@ router.get(
 // @access  Private
 router.get('/:id', [documentValidator.get, auth], documentController.get);
 
+// @route   GET api/documents/getAll
+// @desc    Document with :id
+// @access  Private
+router.get(
+  '/getall/items',
+  [documentValidator.get, auth],
+  documentController.getAll
+);
+
 // @route   GET api/documents/search/:searchTerm
 // @desc    Search Document Names for :searchTerm
 // @access  Private

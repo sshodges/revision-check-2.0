@@ -22,6 +22,10 @@ const RevisionSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  type: {
+    type: String,
+    default: 'revision'
+  },
   notes: {
     type: String
   },

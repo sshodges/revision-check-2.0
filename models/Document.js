@@ -20,6 +20,10 @@ const DocumentSchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
+  type: {
+    type: String,
+    default: 'document'
+  },
   createdAt: {
     type: Date,
     default: Date.now

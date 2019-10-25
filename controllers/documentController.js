@@ -1,4 +1,6 @@
 const Document = require('../models/Document');
+const Folder = require('../models/Folder');
+const Revision = require('../models/Revision');
 
 exports.getByParent = async (req, res) => {
   try {
@@ -25,6 +27,23 @@ exports.get = async (req, res) => {
     }).select('-__v');
 
     res.status(200).json(documents);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errorMessage: 'Server Error' });
+  }
+};
+
+exports.getAll = async (req, res) => {
+  try {
+    const documents = await Document.find({
+      user: req.user.id
+    });
+
+    const folders = await Folder.find({
+      user: req.user.id
+    });
+
+    res.status(200).json([...documents, ...folders]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ errorMessage: 'Server Error' });
