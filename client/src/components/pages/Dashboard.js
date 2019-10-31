@@ -1,54 +1,25 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import Spinner from '../layout/Spinner';
+import Header from '../layout/Header';
 import { getAllDocuments } from '../../actions/documentActions';
+import Documents from '../documents/Documents';
+import Breadcrumb from '../documents/Breadcrumb';
 
-const Dashboard = ({ document: { allDocuments }, getAllDocuments }) => {
+const Dashboard = ({ getAllDocuments }) => {
   useEffect(() => {
     getAllDocuments();
   }, []);
 
   return (
-    <div className='row'>
-      <table class='table'>
-        <tbody>
-          {allDocuments ? (
-            allDocuments.map(document => (
-              <tr key={document.id}>
-                <th scope='row'>1</th>
-                <td>
-                  <img
-                    className='img-responsive'
-                    style={iconStyles}
-                    src={require(`../../assets/img/${document.type}.png`)}
-                  />
-                </td>
-                <td>{document.name}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <Spinner />
-            </tr>
-          )}
-        </tbody>
-      </table>
+    <div className='container' style={{ marginLeft: '350px' }}>
+      <Header />
+      <Breadcrumb />
+      <Documents />
     </div>
   );
 };
 
-const iconStyles = {
-  width: '25px',
-  display: 'inline-block',
-  marginTop: '-5px',
-  marginRight: '15px'
-};
-
-const mapStateToProps = state => ({
-  document: state.document
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   { getAllDocuments }
 )(Dashboard);

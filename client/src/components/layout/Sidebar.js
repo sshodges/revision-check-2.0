@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import SideNav, {
@@ -10,8 +10,7 @@ import SideNav, {
 } from '@trendmicro/react-sidenav';
 import Dashboard from '../pages/Dashboard';
 
-// Be sure to include styles at some point, probably during your bootstraping
-import '../../styles/react-sidenav.css';
+import '../../assets/styles/react-sidenav.css';
 
 const Sidebar = () => {
   return (

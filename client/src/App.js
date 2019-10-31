@@ -1,27 +1,28 @@
 import React, { useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
+import 'materialize-css/dist/css/materialize.min.css';
+import M from 'materialize-css/dist/js/materialize.min.js';
 
 //Components
-import Navbar from './components/layout/Navbar';
 import Dashboard from './components/pages/Dashboard';
-import Sidebar from './components/layout/Sidebar';
+import SideNav from './components/layout/SideNav';
 
 const App = () => {
-  useEffect(() => {});
+  useEffect(() => {
+    M.AutoInit();
+  });
   return (
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Sidebar />
-          <div className='container'>
-            <Switch>
-              <Route exact path='/' component={Dashboard} />
-            </Switch>
-          </div>
+          <SideNav />
+          <Switch>
+            <Route exact path='/' component={Dashboard} />
+          </Switch>
         </Fragment>
       </Router>
     </Provider>
