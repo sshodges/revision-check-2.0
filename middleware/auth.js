@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
 
   // Return error if request not sent with token
   if (!token) {
-    res
+    return res
       .status(401)
       .json({ errorMessage: 'No authenitcation token, access denied' });
   }
@@ -23,6 +23,6 @@ module.exports = (req, res, next) => {
     req.user = tokenData.user;
     next();
   } catch (error) {
-    res.status(500).json({ errorMessage: error });
+    return res.status(500).json({ errorMessage: error });
   }
 };

@@ -3,12 +3,14 @@ import React from 'react';
 const Breadcrumb = () => {
   return (
     <nav style={style}>
-      <div class='nav-wrapper' style={style}>
-        <div class='col s12'>
-          <a href='#!' class='breadcrumb blue-text'>
+      <div className='nav-wrapper' style={style}>
+        <div className='col s12'>
+          <a href='#!' className='breadcrumb blue-text'>
             Home
           </a>
-          <a class='breadcrumb grey-text'>Company ABC</a>
+          <a href='#!' className='breadcrumb grey-text'>
+            Company ABC
+          </a>
         </div>
       </div>
     </nav>

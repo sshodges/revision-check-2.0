@@ -12,10 +12,10 @@ exports.getByParent = async (req, res) => {
       parent: req.params.parent
     }).select('-__v');
 
-    res.status(200).json(documents);
+    return res.status(200).json(documents);
   } catch (error) {
     console.error(req.params.parent);
-    res.status(500).json({ errorMessage: 'Server Error' });
+    return res.status(500).json({ errorMessage: 'Server Error' });
   }
 };
 
@@ -26,10 +26,10 @@ exports.get = async (req, res) => {
       _id: req.params.id
     }).select('-__v');
 
-    res.status(200).json(documents);
+    return res.status(200).json(documents);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
+    return res.status(500).json({ errorMessage: 'Server Error' });
   }
 };
 
@@ -43,10 +43,10 @@ exports.getAll = async (req, res) => {
       user: req.user.id
     });
 
-    res.status(200).json([...documents, ...folders]);
+    return res.status(200).json([...documents, ...folders]);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
+    return res.status(500).json({ errorMessage: 'Server Error' });
   }
 };
 
@@ -60,13 +60,13 @@ exports.add = async (req, res) => {
     });
     const savedDocument = await document.save();
     await savedDocument.populate('user', '-password').execPopulate();
-    res.status(201).json({
+    return res.status(201).json({
       message: 'New Document successfully added',
       savedDocument
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
+    return res.status(500).json({ errorMessage: 'Server Error' });
   }
 };
 

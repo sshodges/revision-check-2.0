@@ -1,15 +1,18 @@
 import React, { useEffect, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
-
+import setAuthToken from './utils/setAuthToken';
 //Components
 import Dashboard from './components/pages/Dashboard';
 import SideNav from './components/layout/SideNav';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   useEffect(() => {

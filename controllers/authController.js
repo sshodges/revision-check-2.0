@@ -21,10 +21,10 @@ exports.login = async (req, res) => {
     const isMatched = await bcrypt.compare(password, user.password);
 
     if (!user || !isMatched) {
-      res.status(400).json({ errorMessage: 'Invalid Credentils' });
+      return res.status(400).json({ errorMessage: 'Invalid Credentils' });
     } else {
       await jwtUtil.createToken(user).then(token => {
-        res.json({ token });
+        return res.json({ token });
       });
     }
   } catch (error) {
