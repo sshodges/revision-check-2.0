@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './layout.css';
 
@@ -32,22 +33,22 @@ const SideNav = ({ auth: { user } }) => {
           </div>
         </li>
         <li className='active'>
-          <a href='#!'>
+          <Link to='/dashboard'>
             <i className='fas fa-home' style={{ fontSize: '1.25em' }} />
             Home
-          </a>
+          </Link>
         </li>
         <li>
-          <a href='#!'>
+          <Link to='/'>
             <i className='fas fa-archive' style={{ fontSize: '1.25em' }} />
             Archive
-          </a>
+          </Link>
         </li>
         <li>
-          <a href='#!'>
+          <Link to='/'>
             <i className='fas fa-user-circle' style={{ fontSize: '1.25em' }} />
             My Account
-          </a>
+          </Link>
         </li>
         <li>
           <a href='#!'>

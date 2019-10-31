@@ -8,6 +8,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 import setAuthToken from './utils/setAuthToken';
 //Components
 import Dashboard from './components/pages/Dashboard';
+import Index from './components/pages/Index';
 import SideNav from './components/layout/SideNav';
 
 if (localStorage.token) {
@@ -24,7 +25,8 @@ const App = () => {
         <Fragment>
           <SideNav />
           <Switch>
-            <Route exact path='/' component={Dashboard} />
+            <Route exact path='/dashboard' component={Dashboard} />
+            <Route exact path='/' component={Index} />
           </Switch>
         </Fragment>
       </Router>
