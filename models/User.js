@@ -1,27 +1,25 @@
-const mongoose = require('mongoose');
-
-const UserSchema = mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true
-  },
-  lastName: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = mongoose.model('user', UserSchema);
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define(
+    'User',
+    {
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      email: DataTypes.STRING,
+      company: DataTypes.STRING,
+      parent: DataTypes.INTEGER,
+      active: DataTypes.BOOLEAN,
+      accountConfirmCode: DataTypes.STRING,
+      passwordResetCode: DataTypes.STRING,
+      inviteCode: DataTypes.STRING,
+      password: DataTypes.STRING
+    },
+    {}
+  );
+  User.associate = function(models) {
+    User.hasMany(models.Folder, { foreignKey: 'userId' });
+    User.hasMany(models.Document, { foreignKey: 'userId' });
+    User.hasMany(models.Revision, { foreignKey: 'userId' });
+  };
+  return User;
+};

@@ -1,33 +1,22 @@
-const mongoose = require('mongoose');
-
-const DocumentSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  parent: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'folders',
-    default: null
-  },
-  user: [
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Document = sequelize.define(
+    'Document',
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    }
-  ],
-  status: {
-    type: Boolean,
-    default: true
-  },
-  type: {
-    type: String,
-    default: 'document'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = mongoose.model('document', DocumentSchema);
+      name: DataTypes.STRING,
+      description: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
+      folderId: DataTypes.INTEGER
+    },
+    {}
+  );
+  Document.associate = function(models) {
+    Document.belongsTo(models.User);
+    Document.belongsTo(models.Folder);
+    Document.hasMany(models.Revision);
+    Document.hasMany(models.Follower);
+    Document.hasMany(models.FollowerDomain);
+    Document.hasOne(models.DocumentSetting);
+  };
+  return Document;
+};

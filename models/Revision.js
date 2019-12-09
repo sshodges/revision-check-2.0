@@ -1,44 +1,20 @@
-const mongoose = require('mongoose');
-
-const RevisionSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  document: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'documents',
-    required: true
-  },
-  latest: {
-    type: Boolean,
-    default: true
-  },
-  revcode: {
-    type: String,
-    unique: true
-  },
-  scans: {
-    type: Number,
-    default: 0
-  },
-  type: {
-    type: String,
-    default: 'revision'
-  },
-  notes: {
-    type: String
-  },
-  user: [
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Revision = sequelize.define(
+    'Revision',
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    }
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = mongoose.model('revision', RevisionSchema);
+      documentId: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
+      name: DataTypes.STRING,
+      revcode: DataTypes.STRING,
+      notes: DataTypes.STRING
+    },
+    {}
+  );
+  Revision.associate = function(models) {
+    Revision.belongsTo(models.User);
+    Revision.belongsTo(models.Document);
+    Revision.hasMany(models.Scan);
+  };
+  return Revision;
+};

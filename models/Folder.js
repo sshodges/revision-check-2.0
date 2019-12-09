@@ -1,29 +1,18 @@
-const mongoose = require('mongoose');
-
-const FolderSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  parent: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'folders',
-    default: null
-  },
-  user: [
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Folder = sequelize.define(
+    'Folder',
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    }
-  ],
-  type: {
-    type: String,
-    default: 'folder'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-module.exports = mongoose.model('folder', FolderSchema);
+      name: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
+      folderId: DataTypes.INTEGER
+    },
+    {}
+  );
+  Folder.associate = function(models) {
+    Folder.belongsTo(models.User, { foreignKey: 'userId' });
+    Folder.hasMany(models.Document);
+    Folder.hasOne(models.FolderSetting);
+  };
+  return Folder;
+};
