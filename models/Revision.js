@@ -3,42 +3,42 @@ const mongoose = require('mongoose');
 const RevisionSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   document: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'documents',
-    required: true
+    required: true,
   },
   latest: {
     type: Boolean,
-    default: true
+    default: true,
   },
   revcode: {
     type: String,
-    unique: true
+    unique: true,
   },
   scans: {
     type: Number,
-    default: 0
+    default: 0,
   },
   type: {
     type: String,
-    default: 'revision'
+    default: 'revision',
   },
-  notes: {
-    type: String
+  note: {
+    type: String,
   },
   user: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
-    }
+      ref: 'user',
+    },
   ],
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('revision', RevisionSchema);

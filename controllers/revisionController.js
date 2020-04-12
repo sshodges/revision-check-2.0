@@ -5,8 +5,10 @@ exports.getByDocument = async (req, res) => {
   try {
     const revisions = await Revision.find({
       user: req.user.id,
-      document: req.params.documentId
-    }).select('-__v');
+      document: req.params.documentId,
+    })
+      .sort({ latest: -1 })
+      .select('-__v');
 
     res.status(200).json(revisions);
   } catch (error) {
@@ -19,7 +21,7 @@ exports.get = async (req, res) => {
   try {
     const revision = await Revision.find({
       user: req.user.id,
-      _id: req.params.id
+      _id: req.params.id,
     }).select('-__v');
 
     res.status(200).json(revision);
@@ -36,21 +38,21 @@ exports.add = async (req, res) => {
       name,
       document,
       user: req.user.id,
-      revcode: customId({})
+      revcode: customId({}),
     });
     const savedRevision = await revision.save();
 
     // Update other revisions to latest=false
     const filter = {
       document,
-      _id: { $ne: savedRevision._id }
+      _id: { $ne: savedRevision._id },
     };
     const update = { latest: false };
     await Revision.updateMany(filter, update);
 
     res.status(201).json({
       message: 'New Revision successfully added',
-      savedRevision
+      savedRevision,
     });
   } catch (error) {
     console.log(error);
@@ -62,7 +64,7 @@ exports.update = async (req, res) => {
   try {
     const filter = {
       user: req.user.id,
-      _id: req.params.id
+      _id: req.params.id,
     };
     const update = req.body;
 
@@ -78,7 +80,7 @@ exports.update = async (req, res) => {
 exports.revcode = async (req, res) => {
   try {
     const revision = await Revision.find({
-      revcode: req.params.revcode
+      revcode: req.params.revcode,
     }).select('-__v');
 
     res.status(200).json(revision);

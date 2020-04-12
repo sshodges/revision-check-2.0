@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {
-  documentValidator
+  documentValidator,
 } = require('../middleware/validators/request-validation');
 const documentController = require('../controllers/documentController');
 const auth = require('../middleware/auth');
@@ -47,5 +47,10 @@ router.post('/', [documentValidator.add, auth], documentController.add);
 // @desc    Update Document
 // @access  Private
 router.put('/:id', [documentValidator.update, auth], documentController.update);
+
+// @route   DELETE api/documents/:id
+// @desc    Archive Document
+// @access  Private
+router.put('/:id', [documentValidator.delete, auth], documentController.delete);
 
 module.exports = router;

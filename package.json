@@ -26,9 +26,12 @@
     "express-session": "^1.16.2",
     "express-validator": "^6.2.0",
     "helmet": "^3.21.0",
+    "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "md5": "^2.2.1",
     "mongoose": "^5.7.0",
     "nodemon": "^1.19.2",
-    "rate-limiter-flexible": "^1.1.1"
+    "rate-limiter-flexible": "^1.1.1",
+    "socket.io": "^2.3.0"
   }
 }
