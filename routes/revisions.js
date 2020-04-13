@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {
-  revisionValidator
+  revisionValidator,
 } = require('../middleware/validators/request-validation');
 const revisionController = require('../controllers/revisionController');
 const auth = require('../middleware/auth');
@@ -29,6 +29,15 @@ router.put('/:id', [revisionValidator.update, auth], revisionController.update);
 // @desc    Add New Revision
 // @access  Private
 router.post('/', [revisionValidator.add, auth], revisionController.add);
+
+// @route   POST api/upload
+// @desc    Upload New Revision Document
+// @access  Private
+router.post(
+  '/upload',
+  [revisionValidator.add, auth],
+  revisionController.upload
+);
 
 // @route   GET api/:revcode
 // @desc    Search Revisions by {revcode}

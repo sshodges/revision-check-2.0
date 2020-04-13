@@ -81,7 +81,7 @@ exports.update = async (req, res) => {
     const room = md5(req.user.id);
     req.io.sockets.in(room).emit('update folder', folder);
 
-    res.status(200).json({ modifyCount: folder.nModified });
+    res.status(200).json({ updatedFolder: folder });
   } catch (error) {
     console.error(error);
     res.status(500).json({ errorMessage: 'Server Error' });

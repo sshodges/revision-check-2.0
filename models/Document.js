@@ -36,6 +36,10 @@ const DocumentSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  requireApproval: {
+    type: Boolean,
+    default: false,
+  },
   allowDocumentDownload: {
     type: Boolean,
     default: false,

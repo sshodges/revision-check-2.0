@@ -28,6 +28,11 @@ const RevisionSchema = mongoose.Schema({
   },
   note: {
     type: String,
+    default: '',
+  },
+  documentLocation: {
+    type: String,
+    default: '',
   },
   user: [
     {
