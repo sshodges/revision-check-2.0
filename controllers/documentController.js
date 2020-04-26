@@ -63,7 +63,7 @@ exports.add = async (req, res) => {
     await savedDocument.populate('user', '-password').execPopulate();
 
     // Emit to socket
-    const room = md5(req.user.account);
+    const room = md5(req.user.account) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('add document', savedDocument);
 
     return res.status(201).json({
@@ -89,7 +89,7 @@ exports.update = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.account);
+    const room = md5(req.user.account) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('update document', document);
 
     res.status(200).json({ modifyCount: document });
@@ -112,7 +112,7 @@ exports.delete = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.account);
+    const room = md5(req.user.account) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('delete document', document);
 
     res.status(200).json({ modifyCount: document });

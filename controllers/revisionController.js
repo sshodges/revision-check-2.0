@@ -86,7 +86,7 @@ exports.upload = async (req, res) => {
         });
 
         // Emit to socket
-        const room = md5(req.user.account);
+        const room = md5(req.user.account) + process.env.SOCKET_HASH;
         req.io.sockets.in(room).emit('update revision', revision);
 
         return res.status(200).json(revision);
@@ -121,7 +121,7 @@ exports.add = async (req, res) => {
     await Revision.updateMany(filter, update);
 
     // Emit to socket
-    const room = md5(req.user.account);
+    const room = md5(req.user.account) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('add revision', savedRevision);
 
     res.status(201).json({
@@ -147,7 +147,7 @@ exports.update = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.account);
+    const room = md5(req.user.account) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('update revision', revision);
 
     res.status(200).json({ updatedRevision: revision });
