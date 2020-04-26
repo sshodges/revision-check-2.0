@@ -6,16 +6,16 @@ const fs = require('fs');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
 
-// configure the keys for accessing AWS
+// Configure the keys for accessing AWS
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-// configure AWS to work with promises
+// Configure AWS to work with promises
 AWS.config.setPromisesDependency(bluebird);
 
-// create S3 instance
+// Create S3 instance
 const s3 = new AWS.S3();
 
 const uploadFile = (buffer, name) => {
@@ -24,7 +24,7 @@ const uploadFile = (buffer, name) => {
     Body: buffer,
     Bucket: process.env.S3_BUCKET,
     ContentType: 'application/pdf',
-    Key: `${name}.pdf`,
+    Key: name,
   };
   return s3.upload(params).promise();
 };
@@ -95,7 +95,7 @@ exports.upload = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error(error);
+    console.error('error', error);
     res.status(500).json({ errorMessage: 'Server Error' });
   }
 };

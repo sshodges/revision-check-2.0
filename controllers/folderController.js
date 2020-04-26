@@ -51,8 +51,6 @@ exports.add = async (req, res) => {
     const savedFolder = await folder.save();
     await savedFolder.populate('user', '-password').execPopulate();
 
-    console.log(req.user);
-
     // Emit to socket
     const room = md5(req.user.account) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('add folder', savedFolder);
