@@ -17,8 +17,8 @@ module.exports = (req, res, next) => {
     // Decode token and get user id
     const decodedJWT = jwt.verify(token, process.env.jwtSecret);
     // Decrypt token data
-    var bytes = cryptojs.AES.decrypt(decodedJWT.token, process.env.cryptoKey);
-    var tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
+    const bytes = cryptojs.AES.decrypt(decodedJWT.token, process.env.cryptoKey);
+    const tokenData = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
     // Send user with id to endpoint
     req.user = tokenData.user;
     next();

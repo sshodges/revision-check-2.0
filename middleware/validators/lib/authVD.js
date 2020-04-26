@@ -10,13 +10,13 @@ exports.login = [
   // Password Validation
   check('password').exists(),
   // Check if validation passes, otherwise block endpoint
-  function(req, res, next) {
-    var errorValidation = validationResult(req);
+  function (req, res, next) {
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
-        errorMessage: errorValidation
+        errorMessage: errorValidation,
       });
     }
     next();
-  }
+  },
 ];

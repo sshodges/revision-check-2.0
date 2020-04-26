@@ -1,33 +1,9 @@
 const Revision = require('../models/Revision');
 const customId = require('custom-id');
 const md5 = require('md5');
-const AWS = require('aws-sdk');
 const fs = require('fs');
-const bluebird = require('bluebird');
 const multiparty = require('multiparty');
-
-// Configure the keys for accessing AWS
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
-
-// Configure AWS to work with promises
-AWS.config.setPromisesDependency(bluebird);
-
-// Create S3 instance
-const s3 = new AWS.S3();
-
-const uploadFile = (buffer, name) => {
-  const params = {
-    ACL: 'public-read',
-    Body: buffer,
-    Bucket: process.env.S3_BUCKET,
-    ContentType: 'application/pdf',
-    Key: name,
-  };
-  return s3.upload(params).promise();
-};
+const { s3Upload } = require('../utils-module/index');
 
 exports.getByDocument = async (req, res) => {
   try {
@@ -70,7 +46,7 @@ exports.upload = async (req, res) => {
         const revisionId = fields.revisionId[0];
         const buffer = fs.readFileSync(path);
         const fileName = `revision-documents/${name}`;
-        const data = await uploadFile(buffer, fileName);
+        const data = await s3Upload(buffer, fileName);
 
         // Update revision
         const filter = {
@@ -91,6 +67,7 @@ exports.upload = async (req, res) => {
 
         return res.status(200).json(revision);
       } catch (error) {
+        console.log('error:', error);
         return res.status(400).json(error);
       }
     });

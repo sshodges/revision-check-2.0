@@ -71,14 +71,14 @@ const server = app.listen(PORT, () =>
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
 });
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
   socket.emit('connection:sid', socket.id);
-  socket.on('join', function (room) {
+  socket.on('join', (room) => {
     socket.join(room);
   });
 });
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   req.io = io;
   next();
 });

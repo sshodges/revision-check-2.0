@@ -33,11 +33,7 @@ router.post('/', [revisionValidator.add, auth], revisionController.add);
 // @route   POST api/upload
 // @desc    Upload New Revision Document
 // @access  Private
-router.post(
-  '/upload',
-  [revisionValidator.add, auth],
-  revisionController.upload
-);
+router.post('/upload', [auth], revisionController.upload);
 
 // @route   GET api/:revcode
 // @desc    Search Revisions by {revcode}

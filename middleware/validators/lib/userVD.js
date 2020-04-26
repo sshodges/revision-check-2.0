@@ -14,9 +14,7 @@ exports.register = [
     .isLength({ min: 2 })
     .withMessage('First name must be at least 2 characters'),
   // Last Name Validation
-  check('lastName', 'Last name is required')
-    .not()
-    .isEmpty(),
+  check('lastName', 'Last name is required').not().isEmpty(),
   // Email Validation
   check('email', 'Please enter a valid email')
     .not()
@@ -33,13 +31,13 @@ exports.register = [
     .withMessage('Password must contain one uppercase character'),
 
   // Check if validation passes, otherwise block endpoint
-  function(req, res, next) {
-    var errorValidation = validationResult(req);
+  function (req, res, next) {
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
-        errorMessage: errorValidation
+        errorMessage: errorValidation,
       });
     }
     next();
-  }
+  },
 ];

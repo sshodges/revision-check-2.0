@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const cryptojs = require('crypto-js');
 require('dotenv').config();
 
-exports.createToken = function (user) {
+exports.createToken = (user) => {
   return new Promise((resolve, reject) => {
     // Send back token with user account
     const payload = {

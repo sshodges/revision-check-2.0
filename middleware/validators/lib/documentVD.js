@@ -2,7 +2,7 @@ const { check, validationResult } = require('express-validator');
 
 exports.get = [
   function (req, res, next) {
-    var errorValidation = validationResult(req);
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
         errorMessage: errorValidation,
@@ -14,7 +14,7 @@ exports.get = [
 
 exports.search = [
   function (req, res, next) {
-    var errorValidation = validationResult(req);
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
         errorMessage: errorValidation,
@@ -26,7 +26,7 @@ exports.search = [
 
 exports.add = [
   function (req, res, next) {
-    var errorValidation = validationResult(req);
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
         errorMessage: errorValidation,
@@ -38,7 +38,7 @@ exports.add = [
 
 exports.update = [
   function (req, res, next) {
-    var errorValidation = validationResult(req);
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
         errorMessage: errorValidation,
@@ -50,7 +50,7 @@ exports.update = [
 
 exports.delete = [
   function (req, res, next) {
-    var errorValidation = validationResult(req);
+    const errorValidation = validationResult(req);
     if (!errorValidation.isEmpty()) {
       return res.status(400).json({
         errorMessage: errorValidation,
