@@ -9,8 +9,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  company: {
-    type: String,
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accounts',
+    require: true,
   },
   email: {
     type: String,
@@ -21,7 +23,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
+  createdAt: {
     type: Date,
     default: Date.now,
   },

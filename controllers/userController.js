@@ -1,9 +1,10 @@
 const bcrypt = require('bcrypt');
 const { jwtUtil } = require('../utils-module/index');
 const User = require('../models/User');
+const Account = require('../models/Account');
 
 exports.register = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, companyName } = req.body;
 
   try {
     // Check if user email exists
@@ -12,12 +13,19 @@ exports.register = async (req, res) => {
     if (user) {
       res.status(400).json({ errorMessage: 'User already exists' });
     } else {
+      // Create Account
+      let account = new Account({
+        companyName,
+      });
+      await account.save();
+
       // Create User object
       user = new User({
         firstName,
         lastName,
         email,
-        password
+        password,
+        account: account._id,
       });
 
       // Generate salt for password
@@ -30,7 +38,7 @@ exports.register = async (req, res) => {
       await user.save();
 
       // Send back token with user id
-      await jwtUtil.createToken(user).then(token => {
+      await jwtUtil.createToken(user).then((token) => {
         res.json({ token });
       });
     }

@@ -10,12 +10,11 @@ const DocumentSchema = mongoose.Schema({
     ref: 'folders',
     default: null,
   },
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
-  ],
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accounts',
+    require: true,
+  },
   status: {
     type: Boolean,
     default: true,

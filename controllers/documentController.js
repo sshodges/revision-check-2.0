@@ -8,7 +8,7 @@ exports.getByParent = async (req, res) => {
       req.params.parent = null;
     }
     const documents = await Document.find({
-      user: req.user.id,
+      account: req.user.account,
       parent: req.params.parent,
     }).select('-__v');
 
@@ -22,7 +22,7 @@ exports.getByParent = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     const documents = await Document.find({
-      user: req.user.id,
+      account: req.user.account,
       _id: req.params.id,
     }).select('-__v');
 
@@ -36,12 +36,12 @@ exports.get = async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const documents = await Document.find({
-      user: req.user.id,
+      account: req.user.account,
       status: true,
     });
 
     const folders = await Folder.find({
-      user: req.user.id,
+      account: req.user.account,
     });
 
     return res.status(200).json([...documents, ...folders]);
@@ -57,13 +57,13 @@ exports.add = async (req, res) => {
     const document = new Document({
       name,
       parent,
-      user: req.user.id,
+      account: req.user.account,
     });
     const savedDocument = await document.save();
     await savedDocument.populate('user', '-password').execPopulate();
 
     // Emit to socket
-    const room = md5(req.user.id);
+    const room = md5(req.user.account);
     req.io.sockets.in(room).emit('add document', savedDocument);
 
     return res.status(201).json({
@@ -79,7 +79,7 @@ exports.add = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const filter = {
-      user: req.user.id,
+      account: req.user.account,
       _id: req.params.id,
     };
     const update = req.body;
@@ -89,7 +89,7 @@ exports.update = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.id);
+    const room = md5(req.user.account);
     req.io.sockets.in(room).emit('update document', document);
 
     res.status(200).json({ modifyCount: document });
@@ -102,7 +102,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const filter = {
-      user: req.user.id,
+      account: req.user.account,
       _id: req.params.id,
     };
     const update = { status: false };
@@ -112,7 +112,7 @@ exports.delete = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.id);
+    const room = md5(req.user.account);
     req.io.sockets.in(room).emit('delete document', document);
 
     res.status(200).json({ modifyCount: document });
@@ -127,7 +127,7 @@ exports.search = async (req, res) => {
     const searchTerm = req.body.search;
     const documents = await Document.find({
       name: { $regex: `^${searchTerm}`, $options: 'i' },
-      user: req.user.id,
+      account: req.user.account,
     })
       .populate('user', '_id firstName lastName')
       .select('-__v');

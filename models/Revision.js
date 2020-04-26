@@ -34,12 +34,11 @@ const RevisionSchema = mongoose.Schema({
     type: String,
     default: '',
   },
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
-  ],
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accounts',
+    require: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

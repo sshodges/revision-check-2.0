@@ -10,12 +10,11 @@ const FolderSchema = mongoose.Schema({
     ref: 'folders',
     default: null,
   },
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
-  ],
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'accounts',
+    require: true,
+  },
   type: {
     type: String,
     default: 'folder',

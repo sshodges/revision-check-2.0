@@ -32,7 +32,7 @@ const uploadFile = (buffer, name) => {
 exports.getByDocument = async (req, res) => {
   try {
     const revisions = await Revision.find({
-      user: req.user.id,
+      account: req.user.account,
       document: req.params.documentId,
     })
       .sort({ createdAt: -1 })
@@ -48,7 +48,7 @@ exports.getByDocument = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     const revision = await Revision.find({
-      user: req.user.id,
+      account: req.user.account,
       _id: req.params.id,
     }).select('-__v');
 
@@ -74,7 +74,7 @@ exports.upload = async (req, res) => {
 
         // Update revision
         const filter = {
-          user: req.user.id,
+          account: req.user.account,
           _id: revisionId,
         };
         const update = {
@@ -86,7 +86,7 @@ exports.upload = async (req, res) => {
         });
 
         // Emit to socket
-        const room = md5(req.user.id);
+        const room = md5(req.user.account);
         req.io.sockets.in(room).emit('update revision', revision);
 
         return res.status(200).json(revision);
@@ -107,7 +107,7 @@ exports.add = async (req, res) => {
       name,
       document,
       note,
-      user: req.user.id,
+      account: req.user.account,
       revcode: customId({}),
     });
     const savedRevision = await revision.save();
@@ -121,7 +121,7 @@ exports.add = async (req, res) => {
     await Revision.updateMany(filter, update);
 
     // Emit to socket
-    const room = md5(req.user.id);
+    const room = md5(req.user.account);
     req.io.sockets.in(room).emit('add revision', savedRevision);
 
     res.status(201).json({
@@ -137,7 +137,7 @@ exports.add = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const filter = {
-      user: req.user.id,
+      account: req.user.account,
       _id: req.params.id,
     };
     const update = req.body;
@@ -147,7 +147,7 @@ exports.update = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.id);
+    const room = md5(req.user.account);
     req.io.sockets.in(room).emit('update revision', revision);
 
     res.status(200).json({ updatedRevision: revision });

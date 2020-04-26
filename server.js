@@ -11,7 +11,7 @@ const app = express();
 const corsOptions = {
   credentials: true,
   origin: 'http://localhost:3000',
-  methods: 'GET,HEAD,PUT,PATCH,POST, DELETE, OPTIONS',
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
   preflightContinue: true,
   optionsSuccessStatus: 204,
   exposedHeaders: 'auth-token',
