@@ -20,14 +20,19 @@ router.get(
 // @access  Private
 router.get('/:id', [documentValidator.get, auth], documentController.get);
 
-// @route   GET api/documents/getAll
-// @desc    Document with :id
+// @route   GET api/documents/getall/items
+// @desc    Get all active documents and folders
 // @access  Private
 router.get(
   '/getall/items',
   [documentValidator.get, auth],
   documentController.getAll
 );
+
+// @route   GET api/documents/archive
+// @desc    Get all archived documents
+// @access  Private
+router.get('/archive/all', [auth], documentController.getArchive);
 
 // @route   GET api/documents/search/:searchTerm
 // @desc    Search Document Names for :searchTerm
@@ -48,9 +53,9 @@ router.post('/', [documentValidator.add, auth], documentController.add);
 // @access  Private
 router.put('/:id', [documentValidator.update, auth], documentController.update);
 
-// @route   DELETE api/documents/:id
-// @desc    Archive Document
-// @access  Private
-router.put('/:id', [documentValidator.delete, auth], documentController.delete);
+// // @route   DELETE api/documents/:id
+// // @desc    Delete Document
+// // @access  Private
+// router.put('/:id', [documentValidator.delete, auth], documentController.delete);
 
 module.exports = router;

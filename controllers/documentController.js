@@ -51,6 +51,20 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getArchive = async (req, res) => {
+  try {
+    const documents = await Document.find({
+      account: req.user.account,
+      status: false,
+    });
+
+    return res.status(200).json(documents);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ errorMessage: 'Server Error' });
+  }
+};
+
 exports.add = async (req, res) => {
   try {
     const { name, parent } = req.body;
