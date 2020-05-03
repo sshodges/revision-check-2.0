@@ -21,20 +21,6 @@ exports.getByDocument = async (req, res) => {
   }
 };
 
-exports.get = async (req, res) => {
-  try {
-    const revision = await Revision.find({
-      account: req.user.account,
-      _id: req.params.id,
-    }).select('-__v');
-
-    res.status(200).json(revision);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
-  }
-};
-
 exports.upload = async (req, res) => {
   try {
     const form = new multiparty.Form();

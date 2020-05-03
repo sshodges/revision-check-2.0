@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {
-  userValidator
+  userValidator,
 } = require('../middleware/validators/request-validation');
 const userController = require('../controllers/userController');
 
@@ -9,9 +9,5 @@ const userController = require('../controllers/userController');
 // @desc    Register a user
 // @access  Public
 router.post('/', userValidator.register, userController.register);
-
-// @route   POST api/users
-// @desc    Add sub-user
-// @access  Private
 
 module.exports = router;

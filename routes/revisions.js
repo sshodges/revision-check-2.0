@@ -15,11 +15,6 @@ router.get(
   revisionController.getByDocument
 );
 
-// @route   GET api/:id
-// @desc    Revisions by :id
-// @access  Private
-router.get('/:id', [revisionValidator.get, auth], revisionController.get);
-
 // @route   PUT api/:id
 // @desc    Update Revision
 // @access  Private

@@ -1,45 +1,6 @@
 const Folder = require('../models/Folder');
 const md5 = require('md5');
 
-exports.getByParent = async (req, res) => {
-  try {
-    if (req.params.parent === 'home') {
-      req.params.parent = null;
-    }
-    const folders = await Folder.find({
-      account: req.user.account,
-      parent: req.params.parent,
-    }).select('-__v');
-
-    res.status(200).json(folders);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
-  }
-};
-
-exports.get = async (req, res) => {
-  try {
-    const folder = await Folder.find({
-      account: req.user.account,
-      _id: req.params.id,
-    }).select('-__v');
-
-    res.status(200).json(folder);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
-  }
-};
-
-exports.getChildren = async (req, res) => {
-  try {
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
-  }
-};
-
 exports.add = async (req, res) => {
   try {
     const { name, parent } = req.body;
@@ -88,23 +49,6 @@ exports.update = async (req, res) => {
   }
 };
 
-exports.search = async (req, res) => {
-  try {
-    const searchTerm = req.body.search;
-    const folders = await Folder.find({
-      name: { $regex: `^${searchTerm}`, $options: 'i' },
-      account: req.user.account,
-    })
-      .populate('user', '_id firstName lastName')
-      .select('-__v');
-
-    res.status(200).json(folders);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ errorMessage: 'Server Error' });
-  }
-};
-
 exports.delete = async (req, res) => {
   try {
     const folder = await Folder.findOneAndDelete(
@@ -119,7 +63,6 @@ exports.delete = async (req, res) => {
 
     // Emit to socket
     const room = md5(req.user.account) + process.env.SOCKET_HASH;
-    console.log(room);
     req.io.sockets.in(room).emit('delete folder', folder);
 
     res.status(200).json({ deletedFolder: folder });

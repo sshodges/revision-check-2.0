@@ -15,6 +15,12 @@ const FolderSchema = mongoose.Schema({
     ref: 'accounts',
     require: true,
   },
+  deletedDocuments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'documents',
+    },
+  ],
   type: {
     type: String,
     default: 'folder',
@@ -25,6 +31,7 @@ const FolderSchema = mongoose.Schema({
   },
 });
 
+// On Folder delete, loop through each child folder/document and delete/archive
 FolderSchema.post('findOneAndDelete', { document: true }, async function (
   doc,
   next
@@ -53,8 +60,10 @@ FolderSchema.post('findOneAndDelete', { document: true }, async function (
     parentIds = childFolders;
   }
 
+  // Delete child Folders
   await mongoose.model('folder').deleteMany({ _id: { $in: folders } });
 
+  // Archive child Documents
   await mongoose
     .model('document')
     .updateMany(
@@ -62,6 +71,8 @@ FolderSchema.post('findOneAndDelete', { document: true }, async function (
       { $set: { status: false, parent: null } }
     );
 
+  // Save list of documents to deletedDocuments property
+  doc.deletedDocuments = documents;
   next();
 });
 
