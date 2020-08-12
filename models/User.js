@@ -11,13 +11,17 @@ const UserSchema = mongoose.Schema({
   },
   account: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'accounts',
+    ref: 'account',
     require: true,
   },
   email: {
     type: String,
     unique: true,
     required: true,
+  },
+  phone: {
+    type: String,
+    default: '',
   },
   password: {
     type: String,

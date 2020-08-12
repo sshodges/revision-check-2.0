@@ -5,7 +5,9 @@ const { jwtUtil } = require('../utils-module/index');
 exports.getUser = async (req, res) => {
   try {
     // Get user id created by Auth middleware (not completed yet) and find user in database
-    const user = await User.findById(req.user.id).select('-password');
+    let user = await User.findById(req.user.id)
+      .populate('account')
+      .select('-password');
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
@@ -17,13 +19,13 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).populate('account');
     const isMatched = await bcrypt.compare(password, user.password);
 
     if (!user || !isMatched) {
       return res.status(400).json({ errorMessage: 'Invalid Credentils' });
     } else {
-      await jwtUtil.createToken(user).then(token => {
+      await jwtUtil.createToken(user).then((token) => {
         return res.json({ token });
       });
     }

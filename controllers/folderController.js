@@ -13,7 +13,10 @@ exports.add = async (req, res) => {
     await savedFolder.populate('user', '-password').execPopulate();
 
     // Emit to socket
-    const room = md5(req.user.account) + process.env.SOCKET_HASH;
+    const room = md5(req.user.account._id) + process.env.SOCKET_HASH;
+
+    console.log('room', req.user.account._id);
+    console.log('hash', room);
     req.io.sockets.in(room).emit('add folder', savedFolder);
 
     res.status(201).json({
@@ -39,7 +42,7 @@ exports.update = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.account) + process.env.SOCKET_HASH;
+    const room = md5(req.user.account._id) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('update folder', folder);
 
     res.status(200).json({ updatedFolder: folder });
@@ -62,7 +65,7 @@ exports.delete = async (req, res) => {
     );
 
     // Emit to socket
-    const room = md5(req.user.account) + process.env.SOCKET_HASH;
+    const room = md5(req.user.account._id) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('delete folder', folder);
 
     res.status(200).json({ deletedFolder: folder });
