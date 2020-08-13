@@ -1,48 +1,46 @@
-const bcrypt = require('bcrypt');
-const { jwtUtil } = require('../utils-module/index');
 const User = require('../models/User');
 const Account = require('../models/Account');
 const md5 = require('md5');
 
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+global.fetch = require('node-fetch');
+
+const poolData = {
+  UserPoolId: process.env.COGNITO_USER_POOL_ID, // Your user pool id here
+  ClientId: process.env.COGNITO_CLIENT_ID, // Your client id here
+};
+
+const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
 exports.register = async (req, res) => {
-  const { firstName, lastName, email, password, companyName } = req.body;
+  const { email, companyName } = req.body;
 
   try {
-    // Check if user email exists
+    // Check if user email exists in MongoDB
     let user = await User.findOne({ email });
 
     if (user) {
       res.status(400).json({ errorMessage: 'User already exists' });
-    } else {
-      // Create Account
-      let account = new Account({
-        companyName,
-      });
-      await account.save();
-
-      // Create User object
-      user = new User({
-        firstName,
-        lastName,
-        email,
-        password,
-        account: account._id,
-      });
-
-      // Generate salt for password
-      const salt = await bcrypt.genSalt(10);
-
-      // Hash password
-      user.password = await bcrypt.hash(password, salt);
-
-      // Save uers
-      await user.save();
-
-      // Send back token with user id
-      await jwtUtil.createToken(user).then((token) => {
-        res.json({ token });
-      });
+      return;
     }
+
+    // Create Account
+    let account = new Account({
+      companyName,
+    });
+    await account.save();
+
+    // Create User object
+    user = new User({
+      email,
+      account: account._id,
+    });
+
+    // Save uers
+    await user.save();
+
+    // Send created User
+    res.status(200).json({ email });
   } catch (error) {
     console.error(error);
     res.status(500).json({ errorMessage: 'Server Error' });

@@ -20,4 +20,18 @@ router.get('/', [/*apiRateLimiter,*/ auth], authController.getUser);
 // @access  Public
 router.post('/', [loginRateLimiter, authValidator.login], authController.login);
 
+// @route   POST api/auth/confirm-user
+// @desc    Confirm user email
+// @access  Public
+router.post('/verify-user', [loginRateLimiter], authController.verifyUser);
+
+// @route   POST api/auth/confirm-user
+// @desc    Confirm user email
+// @access  Public
+router.post(
+  '/resend-verify-user',
+  [loginRateLimiter],
+  authController.resendVerifyUser
+);
+
 module.exports = router;
