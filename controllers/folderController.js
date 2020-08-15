@@ -40,7 +40,7 @@ exports.update = async (req, res) => {
     });
 
     // Emit to socket
-    const room = md5(req.user.account._id) + process.env.SOCKET_HASH;
+    const room = md5(req.user.account._id.toString()) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('update folder', folder);
 
     res.status(200).json({ updatedFolder: folder });
@@ -63,7 +63,7 @@ exports.delete = async (req, res) => {
     );
 
     // Emit to socket
-    const room = md5(req.user.account._id) + process.env.SOCKET_HASH;
+    const room = md5(req.user.account._id.toString()) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('delete folder', folder);
 
     res.status(200).json({ deletedFolder: folder });

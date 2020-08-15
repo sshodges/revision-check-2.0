@@ -1,7 +1,5 @@
 const User = require('../models/User');
-
 require('dotenv').config();
-
 const request = require('request');
 const jwkToPem = require('jwk-to-pem');
 const jwt = require('jsonwebtoken');

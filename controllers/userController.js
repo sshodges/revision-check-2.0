@@ -61,7 +61,7 @@ exports.updateUser = async (req, res) => {
       returnOriginal: false,
     }).populate('account');
     // Emit to socket
-    const room = md5(req.user.account._id) + process.env.SOCKET_HASH;
+    const room = md5(req.user.account._id.toString()) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('update user', user);
 
     res.status(200).json(user);
