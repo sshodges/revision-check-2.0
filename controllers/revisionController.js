@@ -113,7 +113,6 @@ exports.update = async (req, res) => {
     // Emit to socket
     const room = md5(req.user.account._id.toString()) + process.env.SOCKET_HASH;
     req.io.sockets.in(room).emit('update revision', revision);
-
     res.status(200).json({ updatedRevision: revision });
   } catch (error) {
     console.error(error);

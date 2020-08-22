@@ -46,14 +46,16 @@ module.exports = (req, res, next) => {
           var decodedJwt = jwt.decode(token, { complete: true });
           if (!decodedJwt) {
             console.log('Not a valid JWT token');
-            return;
+            return res
+              .status(401)
+              .json({ errorMessage: 'Not a valid JWT token' });
           }
 
           var kid = decodedJwt.header.kid;
           var pem = pems[kid];
           if (!pem) {
             console.log('Invalid token');
-            return;
+            return res.status(401).json({ errorMessage: 'Invalid token' });
           }
 
           jwt.verify(token, pem, async function (err, payload) {
