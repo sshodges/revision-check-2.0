@@ -25,27 +25,21 @@ exports.getAll = async (req, res) => {
 
 exports.getByRevCode = async (req, res) => {
   try {
+    // Get Rrevision
     const revision = await Revision.findOne({
       revcode: req.body.revCode,
     });
-
     if (!revision) {
       return res.status(400).json({ errorMessage: 'Revision cannot be found' });
     }
 
+    // Get parent Document
     const document = await Document.findOne({
       _id: revision.document,
     }).select(' -parent -account -__v -type');
-
     if (!document) {
       return res.status(400).json({ errorMessage: 'Document cannot be found' });
     }
-
-    const notes = await Revision.find({
-      document: revision.document,
-    })
-      .select('name note createdAt -_id')
-      .sort({ createdAt: -1 });
 
     // If document is password protected and no password sent, return document protection status
     if (document.passwordProtected & !req.body.password) {
@@ -66,6 +60,24 @@ exports.getByRevCode = async (req, res) => {
       }
     }
 
+    // Get all notes for document
+    const notes = await Revision.find({
+      document: revision.document,
+    })
+      .select('name note createdAt')
+      .sort({ createdAt: -1 });
+
+    // If revision is not the latest, return details on the latest revision
+    let latestRevision = null;
+    if (!revision.latest) {
+      latestRevision = await Revision.findOne({
+        document: revision.document,
+        latest: true,
+      })
+        .select('name createdAt')
+        .sort({ createdAt: -1 });
+    }
+
     // Increment scans count
     await Revision.findOneAndUpdate(
       {
@@ -78,6 +90,7 @@ exports.getByRevCode = async (req, res) => {
       document,
       revision,
       notes,
+      latestRevision,
     };
 
     return res.status(200).json(payload);
