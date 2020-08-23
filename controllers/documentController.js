@@ -56,8 +56,6 @@ exports.getByRevCode = async (req, res) => {
 
     // If document is password protected and password sent, compare passwords
     if (document.passwordProtected && req.body.password) {
-      console.log(req.body.password);
-      console.log(document);
       const isMatched = await bcrypt.compare(
         req.body.password,
         document.password
@@ -67,6 +65,14 @@ exports.getByRevCode = async (req, res) => {
         return res.status(400).json({ errorMessage: 'Incorrect password' });
       }
     }
+
+    // Increment scans count
+    await Revision.findOneAndUpdate(
+      {
+        revcode: req.body.revCode,
+      },
+      { $inc: { scans: 1 } }
+    );
 
     const payload = {
       document,
@@ -130,7 +136,6 @@ exports.followerApprove = async (req, res) => {
           blocked: false,
         }
       );
-      console.log(follower);
 
       return res.status(200).json(follower);
     }
@@ -147,8 +152,6 @@ exports.followerDeny = async (req, res) => {
     const follower = await DocumentFollower.findOne({
       _id: req.body.followerId,
     });
-
-    console.log(req.body);
 
     if (!follower) {
       return res.status(400).json({ errorMessage: 'Follower not found' });

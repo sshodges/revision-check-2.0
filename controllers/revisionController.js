@@ -1,9 +1,11 @@
 const Revision = require('../models/Revision');
+const Document = require('../models/Document');
+const DocumentFollower = require('../models/DocumentFollower');
 const customId = require('custom-id');
 const md5 = require('md5');
 const fs = require('fs');
 const multiparty = require('multiparty');
-const { s3Upload } = require('../utils-module/index');
+const { s3Upload, sendEmail } = require('../utils-module/index');
 
 exports.getByDocument = async (req, res) => {
   try {
@@ -83,6 +85,31 @@ exports.add = async (req, res) => {
     };
     const update = { latest: false };
     await Revision.updateMany(filter, update);
+
+    // Send email to followers if activated
+    const parentDocument = await Document.findOne({ _id: document });
+
+    if (parentDocument.allowFollowers) {
+      followers = await DocumentFollower.find({
+        document,
+        approved: true,
+      }).select('email -_id');
+      const emails = followers.map((follower) => follower.email);
+
+      const subject = `Revision Check: ${parentDocument.name} has been updated`;
+      const text = `${parentDocument.name} has been updated. The latest revision is ${savedRevision.name}`;
+      const from = 'sshodges@gmail.com';
+
+      const payload = {
+        emails,
+        from,
+        subject,
+        text,
+      };
+      if (emails.length > 0) {
+        await sendEmail(payload);
+      }
+    }
 
     // Emit to socket
     const room = md5(req.user.account._id.toString()) + process.env.SOCKET_HASH;
