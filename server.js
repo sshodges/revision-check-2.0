@@ -10,7 +10,7 @@ const app = express();
 //Cors Settings
 const corsOptions = {
   credentials: true,
-  origin: 'http://localhost:3000',
+  origin: '*',
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
   preflightContinue: true,
   optionsSuccessStatus: 204,
