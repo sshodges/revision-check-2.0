@@ -89,3 +89,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/folders', require('./routes/folders'));
 app.use('/api/documents', require('./routes/documents.js'));
 app.use('/api/revisions', require('./routes/revisions.js'));
+
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'OK' });
+});
