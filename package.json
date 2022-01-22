@@ -38,7 +38,7 @@
     "mongoose": "^5.7.0",
     "multer": "^1.4.2",
     "multiparty": "^4.2.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "nodemon": "^1.19.2",
     "rate-limiter-flexible": "^1.1.1",
     "request": "^2.88.2",
